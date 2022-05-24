@@ -25,13 +25,12 @@ export default class AddressbookImpl {
 
   // Read the address book
   static async readAddressBook(): Promise<AddressBookEntry[]> {
-    const fileName = await this.getFileName();
-
     try {
+      const fileName = await this.getFileName();
       return JSON.parse((await fs.promises.readFile(fileName)).toString());
     } catch (err) {
       // File probably doesn't exist, so return nothing
-      console.log(err);
+      console.debug(err);
       return [];
     }
   }
