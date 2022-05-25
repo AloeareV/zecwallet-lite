@@ -1,6 +1,7 @@
 import { parseZcashURI } from "./uris";
 
 describe("exercise ZIP321 URIs", () => {
+  // The following test vectors are derived from here:  https://zips.z.cash/zip-0321#valid-examples
   test("ZIP321 case 1", () => {
     const targets = parseZcashURI(
       "zcash:ztestsapling10yy2ex5dcqkclhc7z7yrnjq2z6feyjad56ptwlfgmy77dmaqqrl9gyhprdx59qgmsnyfska2kez?amount=1&memo=VGhpcyBpcyBhIHNpbXBsZSBtZW1vLg&message=Thank%20you%20for%20your%20purchase"
