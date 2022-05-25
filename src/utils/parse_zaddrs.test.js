@@ -1,9 +1,9 @@
 import { parseZcashURI } from "./uris";
 
 describe("exercise ZIP321 URIs", () => {
-  describe("ZIP321 Valid examples", () => {
-    // The following test vectors are derived from here:  https://zips.z.cash/zip-0321#valid-examples
-    test("ZIP321 case 1", () => {
+  describe("Valid examples", () => {
+    // The following test vectors are derived from here: https://zips.z.cash/zip-0321#valid-examples
+    test("1 ZEC to a single shielded address...", () => {
       const targets = parseZcashURI(
         "zcash:ztestsapling10yy2ex5dcqkclhc7z7yrnjq2z6feyjad56ptwlfgmy77dmaqqrl9gyhprdx59qgmsnyfska2kez?amount=1&memo=VGhpcyBpcyBhIHNpbXBsZSBtZW1vLg&message=Thank%20you%20for%20your%20purchase"
       );
@@ -18,7 +18,7 @@ describe("exercise ZIP321 URIs", () => {
       expect(targets[0].memoString).toBe("This is a simple memo.");
     });
 
-    test("ZIP321 case 2", () => {
+    test("one transparent and one shielded recipient address...", () => {
       const targets = parseZcashURI(
         "zcash:?address=tmEZhbWHTpdKMw5it8YDspUXSMGQyFwovpU&amount=123.456&address.1=ztestsapling10yy2ex5dcqkclhc7z7yrnjq2z6feyjad56ptwlfgmy77dmaqqrl9gyhprdx59qgmsnyfska2kez&amount.1=0.789&memo.1=VGhpcyBpcyBhIHVuaWNvZGUgbWVtbyDinKjwn6aE8J-PhvCfjok"
       );
@@ -41,7 +41,16 @@ describe("exercise ZIP321 URIs", () => {
       expect(targets[1].memoString).toBe("This is a unicode memo ✨🦄🏆🎉");
     });
   });
+
+  describe("Invalid Examples", () => {
+    // The following test vectors are derived from here: https://zips.z.cash/zip-0321#invalid-examples
+    test("missing a payment address with empty paramindex.", () => {
+      const targets = parseZcashURI("zcash:?amount=3491405.05201255&address.1=ztestsapling10yy2ex5dcqkclhc7z7yrnjq2z6feyjad56ptwlfgmy77dmaqqrl9gyhprdx59qgmsnyfska2kez&amount.1=5740296.87793245");
+      expect(targets).toBe("URI 0 didn't have an address");
+    });
+  });
 });
+
 test("coinbase URI", () => {
   const targets = parseZcashURI("zcash:tmEZhbWHTpdKMw5it8YDspUXSMGQyFwovpU");
 
