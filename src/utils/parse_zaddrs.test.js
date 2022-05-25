@@ -48,6 +48,14 @@ describe("exercise ZIP321 URIs", () => {
       const targets = parseZcashURI("zcash:?amount=3491405.05201255&address.1=ztestsapling10yy2ex5dcqkclhc7z7yrnjq2z6feyjad56ptwlfgmy77dmaqqrl9gyhprdx59qgmsnyfska2kez&amount.1=5740296.87793245");
       expect(targets).toBe("URI 0 didn't have an address");
     });
+    test("this request is missing address.1=", () => {
+      const targets = parseZcashURI("zcash:?address=tmEZhbWHTpdKMw5it8YDspUXSMGQyFwovpU&amount=1&amount.1=2&address.2=ztestsapling10yy2ex5dcqkclhc7z7yrnjq2z6feyjad56ptwlfgmy77dmaqqrl9gyhprdx59qgmsnyfska2kez");
+      expect(targets).toBe("URI 1 didn't have an address");
+    });
+    test("leading 0s are forbidden in paramindex", () => {
+      const targets = parseZcashURI("zcash:?address.0=ztestsapling10yy2ex5dcqkclhc7z7yrnjq2z6feyjad56ptwlfgmy77dmaqqrl9gyhprdx59qgmsnyfska2kez&amount.0=2");
+      expect(targets).toBe("XXXXXXXXXXXXXXXXXXXX");
+    });
   });
 });
 
